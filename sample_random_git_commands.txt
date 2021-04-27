@@ -1,0 +1,50 @@
+git status
+git reset --soft --mixed -N --hard --merge --keep -q HEAD
+git diff w/>y e; git rm h; git branch; git diff D% WT!g
+git diff .6{i E
+git reset HEAD {2; git log
+git rm ~woVH%`
+git status
+git init; git branch
+git reset --soft --mixed --hard --merge --keep 8AECade; git diff ~vE:< c[h; git log; git reset 72ecbCC n
+git diff jOa ^_; git reset --patch Q$c %
+git rm Z
+git reset -q --pathspec-from-file=T --pathspec-file-nul HEAD
+git reset --soft --mixed -N --hard --merge; git commit -m -r
+git reset --pathspec-from-file=vU<L --pathspec-file-nul; git diff /9 Z~
+git reset --soft --mixed -N --hard --merge; git reset HEAD b
+git reset -q r0; git reset -q m3
+git reset --soft --mixed -N --hard --merge -q
+git reset W
+git branch
+git diff H. G; git reset --soft --mixed -N --hard --merge -q 8330Fb6; git log
+git diff * Nfm; git diff 8$V Q=; git commit -m C; git init; git commit -m |
+git status; git branch; git status
+git add 5
+git reset -q HEAD -- L
+git checkout i
+git checkout -b &; git log; git diff <s 8g
+git status
+git reset E6792C9; git reset --patch --
+git reset B93AeFb *
+git reset aC1E2e4 [
+git reset --soft --mixed -N --hard --merge --keep HEAD; git reset --soft --mixed --hard --merge
+git pull
+git init
+git reset --patch --; git commit -m pD; git checkout Or::; git diff c ?; git branch
+git commit -m K; git diff 1 .; git reset 21Aed1F z,; git reset --soft --mixed --hard --merge --keep -q HEAD
+git init
+git cat-file Z#; git cat-file fM
+git add v?; git status; git cat-file {; git pull; git reset -- #[9LuY4; git checkout -b S; git reset -q -- D\j; git reset -- ~S
+git pull; git commit -m rXQ; git checkout -b C
+git diff Qd }
+git log; git status
+git branch
+git diff 3D >t<; git commit -m J
+git pull
+git diff }V K
+git reset HEAD d
+git add &A
+git branch
+git checkout F8s
+git reset 6FE4c21 |,
