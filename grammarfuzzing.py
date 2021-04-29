@@ -93,11 +93,24 @@ reset_str = ("git reset [-q] [<commit>] [--] <name>\n"
 			 "git reset (--patch | -p) [<name>] [--] [<name>]\n"
 			 "git reset [--soft | --mixed [-N] | --hard | --merge | --keep] [-q] [<commit>]\n")
 
+rm_str = ("git rm [-f | --force] [-n] [-r] [--cached] [--ignore-unmatch]\n"
+	  	  "[--quiet] [--pathspec-from-file=<file> [--pathspec-file-nul]]\n"
+	  	  "[--] [<file>]")
+
+mv_str = ("git mv [-v] [-f] [-n] [-k] <file> <name>")
+
+switch_options = "[-c | --create] [-d | --detach] [--guess | --no-guess] [-f | --force] [-m | --merge] [-q | --quiet] [-t | --track]"
+switch_str = ("git switch [%s] [--no-guess] <name>\n" 
+			  "git switch [%s] --detach [<commit>]\n" 
+			  "git switch [%s] (-c|-C) <name> [<commit>]\n" 
+			  "git switch [%s] --orphan <name>" % (switch_options, switch_options, switch_options, switch_options))
 
 GIT_GRAMMAR["<command>"] += documentation_to_commands(reset_str)
 GIT_GRAMMAR["<permissions>"] = documentation_to_commands(permissions_str)
 GIT_GRAMMAR["<command>"] += documentation_to_commands(init_str)
+GIT_GRAMMAR["<command>"] += documentation_to_commands(rm_str)
+GIT_GRAMMAR["<command>"] += documentation_to_commands(switch_str)
 
 add_valid_files_to_grammar(GIT_GRAMMAR)
 
-print(simple_grammar_fuzzer(grammar=GIT_GRAMMAR, max_nonterminals=50, log=False))
+print(simple_grammar_fuzzer(grammar=GIT_GRAMMAR, max_nonterminals=100, log=False))
