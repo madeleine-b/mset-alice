@@ -5,6 +5,7 @@ import random
 import glob
 import os
 import itertools
+import subprocess
 
 random.seed(None)
 
@@ -60,11 +61,19 @@ def documentation_to_commands(doc_str):
 		commands += commands_from_this_line
 	return commands
 
+def add_valid_commits_to_grammar(GRAMMAR):
+	# git log --abbrev-commit
+	output_cmd = subprocess.Popen(["git log --abbrev-commit |  grep \"commit [a-f|0-9]\""], shell=True, stdout=subprocess.PIPE)
+	output = output_cmd.communicate()[0].decode("utf-8").split("\n")[:-1]
+	commits = [o.split()[1] for o in output]
+	GRAMMAR["<commit>"].append("HEAD^%d" % len(commits))
+	GRAMMAR["<commit>"].append("HEAD~%d" % len(commits))
+	GRAMMAR["<commit>"] += commits
 
 # should more formally go from documentation --> grammar automatically?
 GIT_GRAMMAR = {
 	"<start>": ["<program>"],
-	"<program>": ["<command-meta>", "<command-meta>; <program>"],
+	"<program>": ["<command-meta>;", "<command-meta>; <program>"],
 	"<command-meta>": ["<no-arg>", "<one-arg>", "<two-arg>", "<command>"],
 	"<command>": [],
 	"<no-arg>": ["git status", "git init", "git pull", "git log", "git branch"],
@@ -73,12 +82,13 @@ GIT_GRAMMAR = {
 	"<two-arg>": ["git diff <name> <name>", "git reset <commit> <name>"],
 	"<name>": ["<letter>", "<letter><name>"],
 	"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
-	"<letter>": [c for c in string.ascii_letters + string.digits + string.punctuation if c not in ["'", '"']],
-	"<commit>": ["HEAD", "<digit><digit><digit><digit><digit><digit><digit>", "HEAD^<09number>", "HEAD~<09number>"],
+	"<letter>": [c for c in string.ascii_letters + string.digits] + ["_", "-"],
+	"<commit>": ["HEAD"],
 	"<09number>": [str(i) for i in range(10)],
 	"<number>": ["<digit>", "<digit><number>"],
 	"<digit>": string.hexdigits,
-	"<format>": ["sha1", "sha256"]
+	"<format>": ["sha1"],
+	"<when>": ["never", "always", "auto"]
 }
 
 init_str = ("git init [-q | --quiet] [--bare] "
@@ -100,17 +110,44 @@ rm_str = ("git rm [-f | --force] [-n] [-r] [--cached] [--ignore-unmatch]\n"
 mv_str = ("git mv [-v] [-f] [-n] [-k] <file> <name>")
 
 switch_options = "[-c | --create] [-d | --detach] [--guess | --no-guess] [-f | --force] [-m | --merge] [-q | --quiet] [-t | --track]"
-switch_str = ("git switch [%s] [--no-guess] <name>\n" 
-			  "git switch [%s] --detach [<commit>]\n" 
-			  "git switch [%s] (-c|-C) <name> [<commit>]\n" 
-			  "git switch [%s] --orphan <name>" % (switch_options, switch_options, switch_options, switch_options))
+switch_str = ("git switch %s [--no-guess] <name>\n" 
+			  "git switch %s --detach [<commit>]\n" 
+			  "git switch %s (-c|-C) <name> [<commit>]\n" 
+			  "git switch %s --orphan <name>" % (switch_options, switch_options, switch_options, switch_options))
+
+grep_str = ("git grep [-a | --text] [-I] [--textconv] [-i | --ignore-case] [-w | --word-regexp] "
+	   "[-v | --invert-match] [-h|-H] [--full-name] "
+	   "[-E | --extended-regexp] [-G | --basic-regexp] "
+	   "[-P | --perl-regexp] "
+	   "[-F | --fixed-strings] [-n | --line-number] [--column] "
+	   "[-l | --files-with-matches] [-L | --files-without-match] "
+	   "[(-O | --open-files-in-pager)] "
+	   "[-z | --null] "
+	   "[ -o | --only-matching ] [-c | --count] [--all-match] [-q | --quiet] "
+	   "[--max-depth <number>] [--[no-]recursive] "
+	   "[--color[=<when>] | --no-color] "
+	   "[--break] [--heading] [-p | --show-function] "
+	   "[-A <number>] [-B <number>] [-C <number>] "
+	   "[-W | --function-context] "
+	   "[--threads <number>] "
+	   "[-f <file>] [-e] <name> "
+	   "[--and|--or|--not|(|)|-e <name>] "
+	   "[--recurse-submodules] [--parent-basename <name>] "
+	   "[ [--[no-]exclude-standard] [--cached | --no-index | --untracked] | <tree>…​] "
+	   "[--] [<file>]")
 
 GIT_GRAMMAR["<command>"] += documentation_to_commands(reset_str)
 GIT_GRAMMAR["<permissions>"] = documentation_to_commands(permissions_str)
 GIT_GRAMMAR["<command>"] += documentation_to_commands(init_str)
 GIT_GRAMMAR["<command>"] += documentation_to_commands(rm_str)
-GIT_GRAMMAR["<command>"] += documentation_to_commands(switch_str)
+# switch was only added in newer versions
+#GIT_GRAMMAR["<command>"] += documentation_to_commands(switch_str)
+
 
 add_valid_files_to_grammar(GIT_GRAMMAR)
-
-print(simple_grammar_fuzzer(grammar=GIT_GRAMMAR, max_nonterminals=100, log=False))
+add_valid_commits_to_grammar(GIT_GRAMMAR)
+print(GIT_GRAMMAR["<commit>"])
+input()
+print("#!/bin/bash")
+for i in range(5):
+	print(simple_grammar_fuzzer(grammar=GIT_GRAMMAR, max_nonterminals=100, log=False))
