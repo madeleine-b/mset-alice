@@ -79,7 +79,7 @@ GIT_GRAMMAR = {
 	"<no-arg>": ["git status", "git init", "git pull", "git log", "git branch"],
 	"<one-arg>": ["git add <file>", "git commit -m <name>", "git rm <file>", "git cat-file <file>",
 				  "git reset <commit>", "git checkout -b <name>", "git checkout <name>"],
-	"<two-arg>": ["git diff <name> <name>", "git reset <commit> <name>"],
+	"<two-arg>": ["git diff <commit> <commit>", "git reset <commit> <name>"],
 	"<name>": ["<letter>", "<letter><name>"],
 	"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
 	"<letter>": [c for c in string.ascii_letters + string.digits] + ["_", "-"],
@@ -146,8 +146,7 @@ GIT_GRAMMAR["<command>"] += documentation_to_commands(rm_str)
 
 add_valid_files_to_grammar(GIT_GRAMMAR)
 add_valid_commits_to_grammar(GIT_GRAMMAR)
-print(GIT_GRAMMAR["<commit>"])
-input()
+
 print("#!/bin/bash")
 for i in range(5):
 	print(simple_grammar_fuzzer(grammar=GIT_GRAMMAR, max_nonterminals=100, log=False))
