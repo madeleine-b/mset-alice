@@ -70,83 +70,102 @@ def add_valid_commits_to_grammar(GRAMMAR):
 	GRAMMAR["<commit>"].append("HEAD~%d" % len(commits))
 	GRAMMAR["<commit>"] += commits
 
-# should more formally go from documentation --> grammar automatically?
-GIT_GRAMMAR = {
-	"<start>": ["<program>"],
-	"<program>": ["<command-meta>;", "<command-meta>; <program>"],
-	"<command-meta>": ["<no-arg>", "<one-arg>", "<two-arg>", "<command>"],
-	"<command>": [],
-	"<no-arg>": ["git status", "git init", "git pull", "git log", "git branch"],
-	"<one-arg>": ["git add <file>", "git commit -m <name>", "git rm <file>", "git cat-file <file>",
-				  "git reset <commit>", "git checkout -b <name>", "git checkout <name>"],
-	"<two-arg>": ["git diff <commit> <commit>", "git reset <commit> <name>"],
-	"<name>": ["<letter>", "<letter><name>"],
-	"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
-	"<letter>": [c for c in string.ascii_letters + string.digits] + ["_", "-"],
-	"<commit>": ["HEAD"],
-	"<09number>": [str(i) for i in range(10)],
-	"<number>": ["<digit>", "<digit><number>"],
-	"<digit>": string.hexdigits,
-	"<format>": ["sha1"],
-	"<when>": ["never", "always", "auto"]
-}
+def set_up_git_grammar():
+	GIT_GRAMMAR = {
+		"<start>": ["<program>"],
+		"<program>": ["<command-meta>;", "<command-meta>; <program>"],
+		"<command-meta>": ["<no-arg>", "<one-arg>", "<two-arg>", "<command>"],
+		"<command>": [],
+		"<no-arg>": ["git status", "git init", "git pull", "git log", "git branch"],
+		"<one-arg>": ["git add <file>", "git commit -m <name>", "git rm <file>", "git cat-file <file>",
+					  "git reset <commit>", "git checkout -b <name>", "git checkout <name>"],
+		"<two-arg>": ["git diff <commit> <commit>", "git reset <commit> <name>"],
+		"<name>": ["<letter>", "<letter><name>"],
+		"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
+		"<letter>": [c for c in string.ascii_letters + string.digits] + ["_", "-"],
+		"<commit>": ["HEAD"],
+		"<09number>": [str(i) for i in range(10)],
+		"<number>": ["<digit>", "<digit><number>"],
+		"<digit>": string.hexdigits,
+		"<format>": ["sha1"],
+		"<when>": ["never", "always", "auto"]
+	}
 
-init_str = ("git init [-q | --quiet] [--bare] "
-			"[--separate-git-dir name] [--object-format=<format>] "
-	  		"[-b <name> | --initial-branch=<name>] "
-		  	"[--shared[=<permissions>]] [directory]")
+	init_str = ("git init [-q | --quiet] [--bare] "
+				"[--separate-git-dir name] [--object-format=<format>] "
+		  		"[-b <name> | --initial-branch=<name>] "
+			  	"[--shared[=<permissions>]] [directory]")
 
-permissions_str = "[false|true|umask|group|all|world|everybody]"
+	permissions_str = "[false|true|umask|group|all|world|everybody]"
 
-reset_str = ("git reset [-q] [<commit>] [--] <name>\n"
-			 "git reset [-q] [--pathspec-from-file=<name> [--pathspec-file-nul]] [<commit>]\n"
-			 "git reset (--patch | -p) [<name>] [--] [<name>]\n"
-			 "git reset [--soft | --mixed [-N] | --hard | --merge | --keep] [-q] [<commit>]\n")
+	reset_str = ("git reset [-q] [<commit>] [--] <name>\n"
+				 "git reset [-q] [--pathspec-from-file=<name> [--pathspec-file-nul]] [<commit>]\n"
+				 "git reset (--patch | -p) [<name>] [--] [<name>]\n"
+				 "git reset [--soft | --mixed [-N] | --hard | --merge | --keep] [-q] [<commit>]\n")
 
-rm_str = ("git rm [-f | --force] [-n] [-r] [--cached] [--ignore-unmatch]\n"
-	  	  "[--quiet] [--pathspec-from-file=<file> [--pathspec-file-nul]]\n"
-	  	  "[--] [<file>]")
+	rm_str = ("git rm [-f | --force] [-n] [-r] [--cached] [--ignore-unmatch]\n"
+		  	  "[--quiet] [--pathspec-from-file=<file> [--pathspec-file-nul]]\n"
+		  	  "[--] [<file>]")
 
-mv_str = ("git mv [-v] [-f] [-n] [-k] <file> <name>")
+	mv_str = ("git mv [-v] [-f] [-n] [-k] <file> <name>")
 
-switch_options = "[-c | --create] [-d | --detach] [--guess | --no-guess] [-f | --force] [-m | --merge] [-q | --quiet] [-t | --track]"
-switch_str = ("git switch %s [--no-guess] <name>\n" 
-			  "git switch %s --detach [<commit>]\n" 
-			  "git switch %s (-c|-C) <name> [<commit>]\n" 
-			  "git switch %s --orphan <name>" % (switch_options, switch_options, switch_options, switch_options))
+	switch_options = "[-c | --create] [-d | --detach] [--guess | --no-guess] [-f | --force] [-m | --merge] [-q | --quiet] [-t | --track]"
+	switch_str = ("git switch %s [--no-guess] <name>\n" 
+				  "git switch %s --detach [<commit>]\n" 
+				  "git switch %s (-c|-C) <name> [<commit>]\n" 
+				  "git switch %s --orphan <name>" % (switch_options, switch_options, switch_options, switch_options))
 
-grep_str = ("git grep [-a | --text] [-I] [--textconv] [-i | --ignore-case] [-w | --word-regexp] "
-	   "[-v | --invert-match] [-h|-H] [--full-name] "
-	   "[-E | --extended-regexp] [-G | --basic-regexp] "
-	   "[-P | --perl-regexp] "
-	   "[-F | --fixed-strings] [-n | --line-number] [--column] "
-	   "[-l | --files-with-matches] [-L | --files-without-match] "
-	   "[(-O | --open-files-in-pager)] "
-	   "[-z | --null] "
-	   "[ -o | --only-matching ] [-c | --count] [--all-match] [-q | --quiet] "
-	   "[--max-depth <number>] [--[no-]recursive] "
-	   "[--color[=<when>] | --no-color] "
-	   "[--break] [--heading] [-p | --show-function] "
-	   "[-A <number>] [-B <number>] [-C <number>] "
-	   "[-W | --function-context] "
-	   "[--threads <number>] "
-	   "[-f <file>] [-e] <name> "
-	   "[--and|--or|--not|(|)|-e <name>] "
-	   "[--recurse-submodules] [--parent-basename <name>] "
-	   "[ [--[no-]exclude-standard] [--cached | --no-index | --untracked] | <tree>…​] "
-	   "[--] [<file>]")
+	grep_str = ("git grep [-a | --text] [-I] [--textconv] [-i | --ignore-case] [-w | --word-regexp] "
+		   "[-v | --invert-match] [-h|-H] [--full-name] "
+		   "[-E | --extended-regexp] [-G | --basic-regexp] "
+		   "[-P | --perl-regexp] "
+		   "[-F | --fixed-strings] [-n | --line-number] [--column] "
+		   "[-l | --files-with-matches] [-L | --files-without-match] "
+		   "[(-O | --open-files-in-pager)] "
+		   "[-z | --null] "
+		   "[ -o | --only-matching ] [-c | --count] [--all-match] [-q | --quiet] "
+		   "[--max-depth <number>] [--[no-]recursive] "
+		   "[--color[=<when>] | --no-color] "
+		   "[--break] [--heading] [-p | --show-function] "
+		   "[-A <number>] [-B <number>] [-C <number>] "
+		   "[-W | --function-context] "
+		   "[--threads <number>] "
+		   "[-f <file>] [-e] <name> "
+		   "[--and|--or|--not|(|)|-e <name>] "
+		   "[--recurse-submodules] [--parent-basename <name>] "
+		   "[ [--[no-]exclude-standard] [--cached | --no-index | --untracked] | <tree>…​] "
+		   "[--] [<file>]")
 
-GIT_GRAMMAR["<command>"] += documentation_to_commands(reset_str)
-GIT_GRAMMAR["<permissions>"] = documentation_to_commands(permissions_str)
-GIT_GRAMMAR["<command>"] += documentation_to_commands(init_str)
-GIT_GRAMMAR["<command>"] += documentation_to_commands(rm_str)
-# switch was only added in newer versions
-#GIT_GRAMMAR["<command>"] += documentation_to_commands(switch_str)
+	GIT_GRAMMAR["<command>"] += documentation_to_commands(reset_str)
+	GIT_GRAMMAR["<permissions>"] = documentation_to_commands(permissions_str)
+	GIT_GRAMMAR["<command>"] += documentation_to_commands(init_str)
+	GIT_GRAMMAR["<command>"] += documentation_to_commands(rm_str)
+	# switch was only added in newer versions
+	#GIT_GRAMMAR["<command>"] += documentation_to_commands(switch_str)
 
+	add_valid_files_to_grammar(GIT_GRAMMAR)
+	add_valid_commits_to_grammar(GIT_GRAMMAR)
+	return GIT_GRAMMAR
 
-add_valid_files_to_grammar(GIT_GRAMMAR)
-add_valid_commits_to_grammar(GIT_GRAMMAR)
+def set_up_test_program_grammar():
+	TEST_GRAMMAR = {
+		"<start>": ["<program>"],
+		"<program>": ["<command>;", "<command>; <program>"],
+		"<command>": [],
+		"<name>": ["<letter>", "<letter><name>"],
+		"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
+		"<letter>": [c for c in string.ascii_letters + string.digits] + ["_", "-"],
+		"<09number>": [str(i) for i in range(10)],
+		"<number>": ["<digit>", "<digit><number>"],
+		"<digit>": string.hexdigits
+	}
+
+	TEST_GRAMMAR["<command>"] += documentation_to_commands("./copy <file> <name> <number>")
+	add_valid_files_to_grammar(TEST_GRAMMAR)
+	return TEST_GRAMMAR
+
+TEST_GRAMMAR = set_up_test_program_grammar()
 
 print("#!/bin/bash")
 for i in range(5):
-	print(simple_grammar_fuzzer(grammar=GIT_GRAMMAR, max_nonterminals=100, log=False))
+	print(simple_grammar_fuzzer(grammar=TEST_GRAMMAR, max_nonterminals=100, log=False))
