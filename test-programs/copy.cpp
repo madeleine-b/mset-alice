@@ -1,57 +1,47 @@
-#include <argparse/argparse.hpp>
 #include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-#include <stdio.h>
 
-int main(int argc, char *argv[])
-{
-    argparse::ArgumentParser program("copy");
+const static int N = 8;
+const static unsigned char MAGIC = 0xFF;
 
-    program.add_argument("in")
-        .help("input file");
-
-    program.add_argument("out")
-        .help("output file");
-
-    program.add_argument("flag")
-        .help("weird flag")
-        .action([](const std::string &value) { return std::stoi(value); });
-
-    try
-    {
-        program.parse_args(argc, argv);
-    }
-    catch (const std::runtime_error &err)
-    {
-        std::cout << err.what() << std::endl;
-        std::cout << program;
-        exit(0);
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        return -1;
     }
 
-    auto input = program.get<std::string>("in");
-    auto output = program.get<std::string>("out");
-    int flag = program.get<int>("flag");
+    char *input = argv[1];
+    char *output = argv[2];
 
-    int in = open(input.c_str(), O_RDWR);
-    int out = open(output.c_str(), O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    int in = open(input, O_RDWR);
+    if (in == -1) {
+        return -2;
+    }
+    int out = open(output, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    if (out == -1) {
+        close(in);
+        return -3;
+    }
 
-    char buffer[1024];
-
-    while (ssize_t sz = read(in, &buffer, 1024))
-    {
+    unsigned char buffer[N];
+    size_t num_written = 0;
+    while (true) {
+        ssize_t sz = read(in, &buffer, N);
+        if (sz <= 0) {
+            break;
+        }
         write(out, &buffer, sz);
+        if (buffer[0] != MAGIC) {
+            fsync(out);
+        }
+        printf("%lu %lu\n", num_written, num_written + sz);
+        num_written += sz;
     }
 
     close(in);
     close(out);
-
-    if (flag == 69)
-    {
-        int oof = open(input.c_str(), O_TRUNC);
-        close(oof);
-    }
-
     return 0;
 }

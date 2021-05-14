@@ -1,11 +1,15 @@
-COMPILER = g++
+COMPILER = clang++-9
 CFLAGS = -std=c++17 -Iargparse/include
 
 copy: copy.cpp
 	mkdir -p bin
 	$(COMPILER) $(CFLAGS) copy.cpp -o bin/copy
 
-all: copy
+copyllvm: copy.cpp
+	mkdir -p llvm
+	$(COMPILER) $(CFLAGS) -emit-llvm -c copy.cpp -o llvm/copy.bc
+
+all: copy copyllvm
 
 clean:
 	rm -rf bin
