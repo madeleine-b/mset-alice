@@ -8,13 +8,13 @@
 const static int N = 8;
 const static unsigned char MAGIC = 0xFF;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     if (argc < 3) {
         return -1;
     }
 
-    char *input = argv[1];
-    char *output = argv[2];
+    char* input = argv[1];
+    char* output = argv[2];
 
     int in = open(input, O_RDWR);
     if (in == -1) {
