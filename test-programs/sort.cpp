@@ -1,8 +1,7 @@
-#include <fstream>
-#include <vector>
-#include <string>
 #include <algorithm>
-#include <string.h>
+#include <fstream>
+#include <string>
+#include <vector>
 
 const static int N = 8;
 const static unsigned char MAGIC = 0xFF;
@@ -14,7 +13,7 @@ int main(int argc, char* argv[]) {
 
     char* input = argv[1];
     char* output = argv[2];
-    
+
     std::ifstream in(input);
     if (!in) {
         return -2;
