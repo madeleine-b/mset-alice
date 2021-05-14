@@ -29,16 +29,13 @@ int main(int argc, char* argv[]) {
 
     std::ofstream out(output);
     if (!out) {
-        in.close();
         return -3;
     }
 
-    size_t n = lines.size();
-    for (size_t i = 0; i < n - 1; i++) {
-        out << lines[i];
+    for (std::string& line : lines) {
+        out << line;
         out << "\n";
     }
-    out << lines[n - 1];
     out.close();
 
     return 0;
