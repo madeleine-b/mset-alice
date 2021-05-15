@@ -1,0 +1,89 @@
+ext4-ordered-alice-check --traces_dir=traces_dir --checker=./git_checker.sh
+-------------------------------------------------------------------------------
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+-------------------------------------------------------------------------------
+Parsing traces to determine logical operations ...
+WARNING: 17:39:04.792479 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7fffb27a1210) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/git/basic_workload.sh
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Logical operations:
+0	creat(".git/index.lock", parent=118, mode='0666', inode=143)
+1	append(".git/index.lock", offset=0, count=104, inode=143)
+2	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=104, dest_hardlinks=1, source_size=104, dest_parent=118, source_inode=143, dest_inode=134)
+3	creat(".git/index.lock", parent=118, mode='0666', inode=144)
+4	mkdir(".git/objects/14", parent=124, mode='0777', inode=145)
+5	creat(".git/objects/14/tmp_obj_t0or8v", parent=145, mode='0444', inode=146)
+6	append(".git/objects/14/tmp_obj_t0or8v", offset=0, count=22, inode=146)
+7	link(dest=".git/objects/14/be0d41c639d701e0fe23e835b5fe9524b4459d", source=".git/objects/14/tmp_obj_t0or8v", source_parent=145, dest_parent=145, source_inode=146)
+8	unlink(".git/objects/14/tmp_obj_t0or8v", parent=145, inode=146, size=22, hardlinks=2)
+9	append(".git/index.lock", offset=0, count=176, inode=144)
+10	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=104, dest_hardlinks=1, source_size=176, dest_parent=118, source_inode=144, dest_inode=143)
+11	creat(".git/index.lock", parent=118, mode='0666', inode=147)
+12	unlink(".git/index.lock", parent=118, inode=147, size=0, hardlinks=1)
+13	trunc(".git/COMMIT_EDITMSG", initial_size=15, inode=135, final_size=0)
+14	append(".git/COMMIT_EDITMSG", offset=0, count=9, inode=135)
+15	mkdir(".git/objects/49", parent=124, mode='0777', inode=148)
+16	creat(".git/objects/49/tmp_obj_CnW3rV", parent=148, mode='0444', inode=149)
+17	append(".git/objects/49/tmp_obj_CnW3rV", offset=0, count=75, inode=149)
+18	link(dest=".git/objects/49/68e4d4b41cc7bf893157639148676b7339c730", source=".git/objects/49/tmp_obj_CnW3rV", source_parent=148, dest_parent=148, source_inode=149)
+19	unlink(".git/objects/49/tmp_obj_CnW3rV", parent=148, inode=149, size=75, hardlinks=2)
+20	mkdir(".git/objects/96", parent=124, mode='0777', inode=150)
+ubuntu@ip-172-31-63-112:~/alice/example/git$ ext4-ordered-alice-check --traces_dir=traces_dir --checker=./git_checker.sh
+-------------------------------------------------------------------------------
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+-------------------------------------------------------------------------------
+Parsing traces to determine logical operations ...
+WARNING: 17:39:04.792479 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7fffb27a1210) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/git/basic_workload.sh
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Logical operations:
+0	creat(".git/index.lock", parent=118, mode='0666', inode=143)
+1	append(".git/index.lock", offset=0, count=104, inode=143)
+2	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=104, dest_hardlinks=1, source_size=104, dest_parent=118, source_inode=143, dest_inode=134)
+3	creat(".git/index.lock", parent=118, mode='0666', inode=144)
+4	mkdir(".git/objects/14", parent=124, mode='0777', inode=145)
+5	creat(".git/objects/14/tmp_obj_t0or8v", parent=145, mode='0444', inode=146)
+6	append(".git/objects/14/tmp_obj_t0or8v", offset=0, count=22, inode=146)
+7	link(dest=".git/objects/14/be0d41c639d701e0fe23e835b5fe9524b4459d", source=".git/objects/14/tmp_obj_t0or8v", source_parent=145, dest_parent=145, source_inode=146)
+8	unlink(".git/objects/14/tmp_obj_t0or8v", parent=145, inode=146, size=22, hardlinks=2)
+9	append(".git/index.lock", offset=0, count=176, inode=144)
+10	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=104, dest_hardlinks=1, source_size=176, dest_parent=118, source_inode=144, dest_inode=143)
+11	creat(".git/index.lock", parent=118, mode='0666', inode=147)
+12	unlink(".git/index.lock", parent=118, inode=147, size=0, hardlinks=1)
+13	trunc(".git/COMMIT_EDITMSG", initial_size=15, inode=135, final_size=0)
+14	append(".git/COMMIT_EDITMSG", offset=0, count=9, inode=135)
+15	mkdir(".git/objects/49", parent=124, mode='0777', inode=148)
+16	creat(".git/objects/49/tmp_obj_CnW3rV", parent=148, mode='0444', inode=149)
+17	append(".git/objects/49/tmp_obj_CnW3rV", offset=0, count=75, inode=149)
+18	link(dest=".git/objects/49/68e4d4b41cc7bf893157639148676b7339c730", source=".git/objects/49/tmp_obj_CnW3rV", source_parent=148, dest_parent=148, source_inode=149)
+19	unlink(".git/objects/49/tmp_obj_CnW3rV", parent=148, inode=149, size=75, hardlinks=2)
+20	mkdir(".git/objects/96", parent=124, mode='0777', inode=150)
+21	creat(".git/objects/96/tmp_obj_qZiI40", parent=150, mode='0444', inode=151)
+22	append(".git/objects/96/tmp_obj_qZiI40", offset=0, count=158, inode=151)
+23	link(dest=".git/objects/96/023ed8dbb824736856244d13df3d8d90b3ef4f", source=".git/objects/96/tmp_obj_qZiI40", source_parent=150, dest_parent=150, source_inode=151)
+24	unlink(".git/objects/96/tmp_obj_qZiI40", parent=150, inode=151, size=158, hardlinks=2)
+25	creat(".git/refs/heads/master.lock", parent=120, mode='0666', inode=152)
+26	append(".git/refs/heads/master.lock", offset=0, count=40, inode=152)
+27	append(".git/refs/heads/master.lock", offset=40, count=1, inode=152)
+28	append(".git/logs/refs/heads/master", offset=163, count=147, inode=139)
+29	append(".git/logs/HEAD", offset=163, count=147, inode=140)
+30	rename(dest=".git/refs/heads/master", source=".git/refs/heads/master.lock", source_hardlinks=1, source_parent=120, dest_size=41, dest_hardlinks=1, source_size=41, dest_parent=120, source_inode=152, dest_inode=121)
+31	stdout("'[master 96023ed] workload\n'")
+32	stdout("' 1 file changed, 1 insertion(+)\n'")
+33	stdout("' create mode 100644 file2\n'")
+-------------------------------------
+Finding vulnerabilities...
+(Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 7 until 10 need to be atomically persisted
+(Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 23 until 30 need to be atomically persisted
+(Static vulnerability) Across-syscall atomicity: Operation sha1_file.c:2788[move_temp_to_file] until lockfile.c:241[commit_lock_file]
+(Dynamic vulnerability) Ordering: Operation 6 needs to be persisted before 29
+(Dynamic vulnerability) Ordering: Operation 13 needs to be persisted before 29
+(Dynamic vulnerability) Ordering: Operation 14 needs to be persisted before 29
+(Dynamic vulnerability) Ordering: Operation 17 needs to be persisted before 29
+(Dynamic vulnerability) Ordering: Operation 22 needs to be persisted before 29
+(Static vulnerability) Ordering: Operation builtin/commit.c:841[prepare_to_commit] needed before ../sysdeps/unix/sysv/linux/write.c:27[__libc_write]
+(Static vulnerability) Ordering: Operation builtin/commit.c:704[prepare_to_commit] needed before ../sysdeps/unix/sysv/linux/write.c:27[__libc_write]
+(Static vulnerability) Ordering: Operation ../sysdeps/unix/sysv/linux/write.c:27[__libc_write] needed before ../sysdeps/unix/sysv/linux/write.c:27[__libc_write]
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Done finding vulnerabilities.
