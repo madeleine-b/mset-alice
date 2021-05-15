@@ -1,0 +1,9 @@
+Run KLEE:
+    klee -libc=uclibc -libcxx -posix-runtime --only-output-states-covering-new {binary} {symobolic arguments + files}
+    klee -libc=uclibc -posix-runtime ./copy.bc A out -sym-files 1 5
+    klee -libc=uclibc -libcxx -posix-runtime --only-output-states-covering-new ./sort.bc A out -sym-files 1 5
+
+Generate klee-replay output:
+    klee-replay {binary} llvm/klee-last/*.ktest --keep-replay-dir 2> klee-out.txt
+    klee-replay ./bin/copy llvm/klee-last/*.ktest --keep-replay-dir 2> klee-out.txt
+    klee-replay ./bin/sort llvm/klee-last/*.ktest --keep-replay-dir 2> klee-out.txt
