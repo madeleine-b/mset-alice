@@ -37,8 +37,8 @@ int main(int argc, char* argv[]) {
         if (buffer[0] != MAGIC) {
             fsync(out);
         }
-        printf("%lu %lu\n", num_written, num_written + sz);
         num_written += sz;
+        printf("%lu\n", num_written);
     }
 
     close(in);
