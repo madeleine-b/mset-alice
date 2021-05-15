@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
+#include <string.h>
 
 const static int N = 8;
 const static unsigned char MAGIC = 0xFF;
@@ -16,6 +17,10 @@ int main(int argc, char* argv[]) {
     char* input = argv[1];
     char* output = argv[2];
 
+    if (strcmp(input, output) == 0) {
+        return 0;
+    }
+
     int in = open(input, O_RDWR);
     if (in == -1) {
         return -2;
@@ -25,6 +30,8 @@ int main(int argc, char* argv[]) {
         close(in);
         return -3;
     }
+
+    printf("\n%s,%s:", input, output);
 
     unsigned char buffer[N];
     size_t num_written = 0;
@@ -38,7 +45,7 @@ int main(int argc, char* argv[]) {
             fsync(out);
         }
         num_written += sz;
-        printf("%lu\n", num_written);
+        printf("%lu,", num_written);
     }
 
     close(in);

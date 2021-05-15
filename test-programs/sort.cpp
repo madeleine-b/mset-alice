@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     char* input = argv[1];
     char* output = argv[2];
 
-    std::cout << input << ",";
+    std::cout << std::endl << input << ",";
     std::cout << output << ",";
 
     std::ifstream in(input);
@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 
     struct stat st;
     stat(input, &st);
-    std::cout << st.st_size << std::endl;
+    std::cout << st.st_size;
 
     std::string s;
     std::vector<std::string> lines;

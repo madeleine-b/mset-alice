@@ -16,9 +16,6 @@ stdout_lines = stdout_lines.rstrip().split('\n')
 
 i = 0
 n = len(stdout_lines)
-input_str = "input:"
-output_str = "output:" 
-input_size_str = "input_size:"
 for i in xrange(n):
     try:
         line = stdout_lines[i]
@@ -35,4 +32,4 @@ for i in xrange(n):
             # same file for input and output, require no data loss
             assert len(out) == int(data[2])
     except:
-        break
+        continue
