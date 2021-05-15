@@ -28,12 +28,13 @@ def create_and_add_random_files_to_grammar(grammar, num_files=1):
 		if random_file_name in relative_files:
 			# we will make another random choice since we don't increment i
 			continue
-		random_bytes_str = ''.join(random.choices(string.hexdigits, k=random.randrange(1, 50)))
+		random_bytes_str = ''.join(random.choices(string.hexdigits, k=random.randrange(1, 500)))
 		if len(random_bytes_str) % 2 != 0:
 			random_bytes_str = random_bytes_str[:-1]
 		random_bytes = bytes.fromhex(random_bytes_str)
 		with open(random_file_name, 'wb') as f:
 			f.write(random_bytes)
+			grammar["<file>"].append(random_file_name)
 		i += 1
 
 def documentation_to_commands(doc_str):
