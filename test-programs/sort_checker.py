@@ -31,5 +31,7 @@ for i in xrange(n):
         if data[0] == data[1]:
             # same file for input and output, require no data loss
             assert len(out) == int(data[2])
+    except AssertionError as e:
+        raise e
     except:
         continue

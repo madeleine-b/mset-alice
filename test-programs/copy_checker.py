@@ -37,6 +37,7 @@ for i in xrange(n):
         f.close()
 
         assert in_str[:int(data[-1])] == out_str
-        
+    except AssertionError as e:
+        raise e
     except:
         continue
