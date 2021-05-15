@@ -1,6 +1,12 @@
 COMPILER = clang++-9
 CFLAGS = -std=c++17 -Iargparse/include
 
+MY_CXX_FLAGS=-nostdinc++ -stdlib=libc++ -lc++ -lc++abi \
+	-I/usr/local/lib/llvm-90/libcxx/include \
+	-I/usr/local/lib/llvm-90/libcxxabi/include \
+	-Wl,-L/usr/local/lib/libc++-install-90/lib -Wl,-L/usr/local/lib/llvm-90/libcxxabi/lib \
+	-Wl,-rpath=/usr/local/lib/libc++-install-90/lib -Wl,-rpath=/usr/local/lib/llvm-90/libcxxabi/lib
+
 all: copy copyllvm sort sortllvm
 
 copy: copy.cpp
@@ -17,7 +23,7 @@ copyllvm: copy.cpp
 
 sortllvm: sort.cpp
 	mkdir -p llvm
-	$(COMPILER) $(CFLAGS) -emit-llvm -c sort.cpp -o llvm/sort.bc
+	$(COMPILER) $(CFLAGS) $(MY_CXX_FLAGS) -emit-llvm -c sort.cpp -o llvm/sort.bc
 
 clean:
 	rm -rf bin

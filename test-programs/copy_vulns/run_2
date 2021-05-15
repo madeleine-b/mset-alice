@@ -1,0 +1,16 @@
+[00;31m-------------------------------------------------------------------------------[0m
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+[00;31m-------------------------------------------------------------------------------[0m
+Parsing traces to determine logical operations ...
+Logical operations:
+[00;32m0[0m	creat("[00;45mout[0m", parent=13749, mode='0600', inode=13751)
+[00;32m1[0m	append("[00;45mout[0m", offset=0, count=5, inode=13751)
+[00;32m2[0m	[00;32mstdout[0m("'5\n'")
+[00;31m-------------------------------------[0m
+Finding vulnerabilities...
+(Dynamic vulnerability) Ordering: Operation 0 needs to be persisted before 2
+(Dynamic vulnerability) Ordering: Operation 1 needs to be persisted before 2
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/mset-alice/test-programs/bin/copy:0x401266[main] needed before B-/home/ubuntu/mset-alice/test-programs/bin/copy:0x4010be[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/mset-alice/test-programs/bin/copy:0x401202[main] needed before B-/home/ubuntu/mset-alice/test-programs/bin/copy:0x4010be[_start]
+Done finding vulnerabilities.

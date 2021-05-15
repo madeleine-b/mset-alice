@@ -1,0 +1,4 @@
+*traces_dir
+*workload_dir
+klee-out.txt
+llvm
