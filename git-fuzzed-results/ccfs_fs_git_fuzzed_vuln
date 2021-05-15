@@ -1,0 +1,76 @@
+ccfs-alice-check --traces_dir=traces_dir --checker=./git_checker.sh
+-------------------------------------------------------------------------------
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+-------------------------------------------------------------------------------
+Parsing traces to determine logical operations ...
+WARNING: 16:39:42.842204 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffe273f6460) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/git/fuzzed.sh
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Logical operations:
+0	creat(".git/index.lock", parent=118, mode='0666', inode=143)
+1	unlink(".git/index.lock", parent=118, inode=143, size=0, hardlinks=1)
+2	creat(".git/index.lock", parent=118, mode='0666', inode=144)
+3	append(".git/index.lock", offset=0, count=104, inode=144)
+4	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=104, dest_hardlinks=1, source_size=104, dest_parent=118, source_inode=144, dest_inode=134)
+5	stdout("'On branch master\n'")
+6	stdout("'Untracked files:\n'")
+7	stdout("'  (use "git add <file>..." to include in what will be committed)\n'")
+8	stdout("'\n'")
+9	stdout("'\t\x1b[31mfile2\x1b[m\n'")
+10	stdout("'\n'")
+11	stdout("'nothing added to commit but untracked files present (use "git add" to track)\n'")
+12	creat(".git/index.lock", parent=118, mode='0666', inode=145)
+13	unlink(".git/index.lock", parent=118, inode=145, size=0, hardlinks=1)
+14	creat(".git/index.lock", parent=118, mode='0666', inode=146)
+15	append(".git/index.lock", offset=0, count=104, inode=146)
+16	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=104, dest_hardlinks=1, source_size=104, dest_parent=118, source_inode=146, dest_inode=144)
+17	creat(".git/refs/heads/mFS.lock", parent=120, mode='0666', inode=147)
+18	append(".git/refs/heads/mFS.lock", offset=0, count=40, inode=147)
+19	append(".git/refs/heads/mFS.lock", offset=40, count=1, inode=147)
+20	creat(".git/logs/refs/heads/mFS", parent=138, mode='0666', inode=148)
+21	append(".git/logs/refs/heads/mFS", offset=0, count=156, inode=148)
+22	rename(dest=".git/refs/heads/mFS", source=".git/refs/heads/mFS.lock", source_hardlinks=1, source_parent=120, dest_size=0, dest_hardlinks=0, source_size=41, dest_parent=120, source_inode=147, dest_inode=False)
+23	creat(".git/HEAD.lock", parent=118, mode='0666', inode=149)
+24	append(".git/HEAD.lock", offset=0, count=20, inode=149)
+25	rename(dest=".git/HEAD", source=".git/HEAD.lock", source_hardlinks=1, source_parent=118, dest_size=23, dest_hardlinks=1, source_size=20, dest_parent=118, source_inode=149, dest_inode=123)
+26	append(".git/logs/HEAD", offset=163, count=166, inode=140)
+27	creat(".git/index.lock", parent=118, mode='0666', inode=150)
+28	unlink(".git/index.lock", parent=118, inode=150, size=0, hardlinks=1)
+29	creat(".git/index.lock", parent=118, mode='0666', inode=151)
+30	mkdir(".git/objects/14", parent=124, mode='0777', inode=152)
+31	creat(".git/objects/14/tmp_obj_JVqY9f", parent=152, mode='0444', inode=153)
+32	append(".git/objects/14/tmp_obj_JVqY9f", offset=0, count=22, inode=153)
+33	link(dest=".git/objects/14/be0d41c639d701e0fe23e835b5fe9524b4459d", source=".git/objects/14/tmp_obj_JVqY9f", source_parent=152, dest_parent=152, source_inode=153)
+34	unlink(".git/objects/14/tmp_obj_JVqY9f", parent=152, inode=153, size=22, hardlinks=2)
+35	append(".git/index.lock", offset=0, count=176, inode=151)
+36	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=104, dest_hardlinks=1, source_size=176, dest_parent=118, source_inode=151, dest_inode=146)
+37	creat(".git/index.lock", parent=118, mode='0666', inode=154)
+38	append(".git/index.lock", offset=0, count=176, inode=154)
+39	rename(dest=".git/index", source=".git/index.lock", source_hardlinks=1, source_parent=118, dest_size=176, dest_hardlinks=1, source_size=176, dest_parent=118, source_inode=154, dest_inode=151)
+40	stdout("'* \x1b[32mmFS\x1b[m\n'")
+41	stdout("'  master\x1b[m\n'")
+42	creat(".git/index.lock", parent=118, mode='0666', inode=155)
+43	unlink(".git/index.lock", parent=118, inode=155, size=0, hardlinks=1)
+-------------------------------------
+Finding vulnerabilities...
+(Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 33 until 36 need to be atomically persisted
+(Static vulnerability) Across-syscall atomicity: Operation sha1_file.c:2788[move_temp_to_file] until lockfile.c:241[commit_lock_file]
+(Dynamic vulnerability) Ordering: Operation 5 needs to be persisted before 35
+(Dynamic vulnerability) Ordering: Operation 6 needs to be persisted before 35
+(Dynamic vulnerability) Ordering: Operation 7 needs to be persisted before 35
+(Dynamic vulnerability) Ordering: Operation 8 needs to be persisted before 35
+(Dynamic vulnerability) Ordering: Operation 9 needs to be persisted before 35
+(Dynamic vulnerability) Ordering: Operation 10 needs to be persisted before 35
+(Dynamic vulnerability) Ordering: Operation 11 needs to be persisted before 35
+(Static vulnerability) Ordering: Operation wt-status.c:61[status_vprintf] needed before ../sysdeps/unix/sysv/linux/write.c:27[__libc_write]
+(Static vulnerability) Ordering: Operation wt-status.c:1404[wt_status_print] needed before ../sysdeps/unix/sysv/linux/write.c:27[__libc_write]
+(Static vulnerability) Ordering: Operation wt-status.c:83[status_vprintf] needed before ../sysdeps/unix/sysv/linux/write.c:27[__libc_write]
+(Static vulnerability) Ordering: Operation wt-status.c:86[status_vprintf] needed before ../sysdeps/unix/sysv/linux/write.c:27[__libc_write]
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Done finding vulnerabilities.
