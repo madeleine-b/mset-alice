@@ -1,0 +1,16 @@
+KLEE: WARNING: undefined reference to function: __ctype_get_mb_cur_max
+KLEE: WARNING: undefined reference to function: __isoc99_sscanf
+KLEE: WARNING: undefined reference to function: __isoc99_vsscanf
+KLEE: WARNING: undefined reference to function: bcmp
+KLEE: WARNING: undefined reference to function: catclose
+KLEE: WARNING: undefined reference to function: catgets
+KLEE: WARNING: undefined reference to function: catopen
+KLEE: WARNING: executable has module level assembly (ignoring)
+KLEE: WARNING ONCE: Using zero size array fix for landingpad instruction filter
+KLEE: WARNING ONCE: calling external: syscall(16, 0, 21505, 94743208720528) at runtime/POSIX/fd.c:1007 10
+KLEE: WARNING ONCE: Alignment of memory from call "malloc" is not modelled. Using alignment of 8.
+KLEE: WARNING ONCE: calling __klee_posix_wrapped_main with extra arguments.
+KLEE: WARNING ONCE: Alignment of memory from call "calloc" is not modelled. Using alignment of 8.
+KLEE: WARNING ONCE: Alignment of memory from call "_Znam" is not modelled. Using alignment of 8.
+KLEE: WARNING ONCE: ioctl: (TCGETS) symbolic file, incomplete model
+KLEE: WARNING ONCE: Alignment of memory from call "_Znwm" is not modelled. Using alignment of 8.
