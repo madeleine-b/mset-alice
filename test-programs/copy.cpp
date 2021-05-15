@@ -1,10 +1,10 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-#include <string.h>
 
 const static int N = 8;
 const static unsigned char MAGIC = 0xFF;
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
         return -3;
     }
 
-    printf("\n%s,%s:", input, output);
+    printf("\n%s,%s:", basename(input), basename(output));
 
     unsigned char buffer[N];
     size_t num_written = 0;

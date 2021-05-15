@@ -24,7 +24,8 @@ for i in xrange(n):
             continue
         paths = line[:f_pos]
         paths = paths.split(',')
-        in_path, out_path = paths
+        in_path = paths[0]
+        out_path = paths[1]
         line = line[f_pos + 1:]
         data = line.rstrip(',').split(',')
 

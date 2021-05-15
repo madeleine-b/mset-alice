@@ -1,3 +1,4 @@
+#include <string.h>
 #include <sys/stat.h>
 
 #include <algorithm>
@@ -17,8 +18,9 @@ int main(int argc, char* argv[]) {
     char* input = argv[1];
     char* output = argv[2];
 
-    std::cout << std::endl << input << ",";
-    std::cout << output << ",";
+    std::cout << std::endl
+              << basename(input) << ",";
+    std::cout << basename(output) << ",";
 
     std::ifstream in(input);
     if (!in) {
