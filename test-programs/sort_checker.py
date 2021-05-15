@@ -7,12 +7,32 @@ crashed_state_directory = sys.argv[1]
 stdout_file = sys.argv[2]
 
 os.chdir(crashed_state_directory)
-original_length = int(open(stdout_file).read())
 
-out = open('A').read()
+stdout = open(stdout_file)
+stdout_lines = stdout.read()
+stdout.close()
 
-assert len(out) == original_length
+stdout_lines = stdout_lines.rstrip().split('\n')
 
-lines = out.split('\n')
-
-assert all(lines[i] <= lines[i + 1] for i in xrange(len(lines) - 1))
+i = 0
+n = len(stdout_lines)
+input_str = "input:"
+output_str = "output:" 
+input_size_str = "input_size:"
+for i in xrange(n):
+    try:
+        line = stdout_lines[i]
+        data = line.split(',')
+        
+        f = open(data[1])
+        out = f.read()
+        f.close()
+        
+        lines = out.rstrip().split('\n')
+        assert all(lines[i] <= lines[i + 1] for i in xrange(len(lines) - 1))
+        
+        if data[0] == data[1]:
+            # same file for input and output, require no data loss
+            assert len(out) == int(data[2])
+    except:
+        break
