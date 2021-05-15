@@ -5,6 +5,7 @@ import random
 import glob
 import os
 import itertools
+import sys
 import subprocess
 
 random.seed(None)
@@ -27,12 +28,13 @@ def create_and_add_random_files_to_grammar(grammar, num_files=1):
 		if random_file_name in relative_files:
 			# we will make another random choice since we don't increment i
 			continue
-		random_bytes_str = ''.join(random.choices(string.hexdigits, k=random.randrange(1, 50)))
+		random_bytes_str = ''.join(random.choices(string.hexdigits, k=random.randrange(1, 500)))
 		if len(random_bytes_str) % 2 != 0:
 			random_bytes_str = random_bytes_str[:-1]
 		random_bytes = bytes.fromhex(random_bytes_str)
 		with open(random_file_name, 'wb') as f:
 			f.write(random_bytes)
+			grammar["<file>"].append(random_file_name)
 		i += 1
 
 def documentation_to_commands(doc_str):
@@ -101,7 +103,7 @@ def set_up_git_grammar():
 		"<two-arg>": ["git diff <commit> <commit>", "git reset <commit> <name>"],
 		"<name>": ["<letter>", "<letter><name>"],
 		"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
-		"<letter>": [c for c in string.ascii_letters + string.digits] + ["_", "-"],
+		"<letter>": [c for c in string.ascii_letters + string.digits] + ["_"],
 		"<commit>": ["HEAD"],
 		"<09number>": [str(i) for i in range(10)],
 		"<number>": ["<digit>", "<digit><number>"],
@@ -166,26 +168,60 @@ def set_up_git_grammar():
 	add_valid_commits_to_grammar(GIT_GRAMMAR)
 	return GIT_GRAMMAR
 
-def set_up_test_program_grammar():
-	TEST_GRAMMAR = {
+def set_up_copy_program_grammar():
+	COPY_GRAMMAR = {
 		"<start>": ["<program>"],
 		"<program>": ["<command>;", "<command>; <program>"],
 		"<command>": [],
 		"<name>": ["<letter>", "<letter><name>"],
 		"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
-		"<letter>": [c for c in string.ascii_letters + string.digits] + ["_", "-"],
+		"<letter>": [c for c in string.ascii_letters + string.digits] + ["_"],
 		"<09number>": [str(i) for i in range(10)],
 		"<number>": ["<digit>", "<digit><number>"],
 		"<digit>": string.hexdigits
 	}
 
-	TEST_GRAMMAR["<command>"] += documentation_to_commands("copy <file> <name>")
-	add_valid_files_to_grammar(TEST_GRAMMAR)
-	create_and_add_random_files_to_grammar(TEST_GRAMMAR)
-	return TEST_GRAMMAR
+	COPY_GRAMMAR["<command>"] += documentation_to_commands("copy <file> <name>")
+	add_valid_files_to_grammar(COPY_GRAMMAR)
+	create_and_add_random_files_to_grammar(COPY_GRAMMAR)
+	return COPY_GRAMMAR
 
-TEST_GRAMMAR = set_up_test_program_grammar()
+def set_up_sort_program_grammar():
+	SORT_GRAMMAR = {
+		"<start>": ["<program>"],
+		"<program>": ["<command>;", "<command>; <program>"],
+		"<command>": [],
+		"<name>": ["<letter>", "<letter><name>"],
+		"<file>": ["<name>"],  # include random stuff too in case bugs cause issues
+		"<letter>": [c for c in string.ascii_letters + string.digits] + ["_"],
+		"<09number>": [str(i) for i in range(10)],
+		"<number>": ["<digit>", "<digit><number>"],
+		"<digit>": string.hexdigits
+	}
+
+	SORT_GRAMMAR["<command>"] += documentation_to_commands("sort <file> <name>")
+	add_valid_files_to_grammar(SORT_GRAMMAR)
+	create_and_add_random_files_to_grammar(SORT_GRAMMAR)
+	return SORT_GRAMMAR
+
+if len(sys.argv) == 1:
+	print("Usage: python3 grammarfuzzing.py {git, copy, sort} [MAX_NONTERMINALS]")
+	quit()
+
+if sys.argv[1] == "git":
+	GRAMMAR = set_up_git_grammar()
+elif sys.argv[1] == "copy":
+ 	GRAMMAR = set_up_copy_program_grammar()
+elif sys.argv[1] == "sort":
+ 	GRAMMAR = set_up_sort_program_grammar()
+else:
+	print("unexpected arg %s" % sys.argv[1])
+	print("Usage: python3 grammarfuzzing.py {git, copy, sort} [MAX_NONTERMINALS]")
+	quit()
+
+
+max_nonterminals = int(sys.argv[2]) if len(sys.argv) > 2 else 100
 
 print("#!/bin/bash")
 for i in range(5):
-	print(simple_grammar_fuzzer(grammar=TEST_GRAMMAR, max_nonterminals=100, log=False))
+	print(simple_grammar_fuzzer(grammar=GRAMMAR, max_nonterminals=max_nonterminals, log=False))
