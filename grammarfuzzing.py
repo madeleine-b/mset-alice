@@ -16,6 +16,25 @@ def add_valid_files_to_grammar(grammar):
 	relative_files = [f.replace(path_of_cwd, '')[1:] for f in files]
 	grammar["<file>"] += files + relative_files
 
+def create_and_add_random_files_to_grammar(grammar, num_files=1):
+	path_of_cwd = os.path.abspath(os.getcwd())
+	files = glob.glob(path_of_cwd + '/**/*', recursive=True)
+	# Remove leading slash and absolute path
+	relative_files = [f.replace(path_of_cwd, '')[1:] for f in files]
+	i = 0
+	while i < num_files:
+		random_file_name = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randrange(1, 10)))
+		if random_file_name in relative_files:
+			# we will make another random choice since we don't increment i
+			continue
+		random_bytes_str = ''.join(random.choices(string.hexdigits, k=random.randrange(1, 50)))
+		if len(random_bytes_str) % 2 != 0:
+			random_bytes_str = random_bytes_str[:-1]
+		random_bytes = bytes.fromhex(random_bytes_str)
+		with open(random_file_name, 'wb') as f:
+			f.write(random_bytes)
+		i += 1
+
 def documentation_to_commands(doc_str):
 	lines = doc_str.split("\n")
 	commands = []
@@ -160,8 +179,9 @@ def set_up_test_program_grammar():
 		"<digit>": string.hexdigits
 	}
 
-	TEST_GRAMMAR["<command>"] += documentation_to_commands("./copy <file> <name> <number>")
+	TEST_GRAMMAR["<command>"] += documentation_to_commands("copy <file> <name>")
 	add_valid_files_to_grammar(TEST_GRAMMAR)
+	create_and_add_random_files_to_grammar(TEST_GRAMMAR)
 	return TEST_GRAMMAR
 
 TEST_GRAMMAR = set_up_test_program_grammar()
