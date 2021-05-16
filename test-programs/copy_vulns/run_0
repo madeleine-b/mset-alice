@@ -3,11 +3,12 @@ ALICE tool version 0.0.1. Please go through the documentation, particularly the
 listed caveats and limitations, before deriving any inferences from this tool. 
 [00;31m-------------------------------------------------------------------------------[0m
 Parsing traces to determine logical operations ...
+WARNING: 21:05:25.937769 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffdc6ecba10) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/mset-alice/test-programs/twocopy.sh
 Logical operations:
-[00;32m0[0m	creat("[00;45mout[0m", parent=31023, mode='0600', inode=31025)
-[00;32m1[0m	append("[00;45mout[0m", offset=0, count=5, inode=31025)
-[00;32m2[0m	[00;31mfsync[0m("[00;45mout[0m", size=5, inode=31025)
-[00;32m3[0m	[00;32mstdout[0m("'\nA,out:5,'")
+[00;32m0[0m	creat("[00;33mout1[0m", parent=51905, mode='0600', inode=51907)
+[00;32m1[0m	append("[00;33mout1[0m", offset=0, count=5, inode=51907)
+[00;32m2[0m	[00;31mfsync[0m("[00;33mout1[0m", size=5, inode=51907)
+[00;32m3[0m	[00;32mstdout[0m("'\nA,out1:5,'")
 [00;31m-------------------------------------[0m
 Finding vulnerabilities...
 Done finding vulnerabilities.

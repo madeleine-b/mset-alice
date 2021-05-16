@@ -22,9 +22,10 @@ while True:
     start = end + len(end_str)
 
 try:
-    os.mkdir("copy_vulns")
+    shutil.rmtree("copy_vulns")
 except:
     pass
+os.mkdir("copy_vulns")
 
 counter = 0
 for file_path in file_paths:
@@ -48,7 +49,7 @@ for file_path in file_paths:
     subprocess.check_output("""
               alice-record --workload_dir ./copy_workload_dir \
               --traces_dir ./copy_traces_dir \
-              ./bin/copy ./copy_workload_dir/A ./copy_workload_dir/out
+              ./twocopy.sh
               """, shell=True)
     
     alice_output = subprocess.check_output("alice-check --traces_dir=./copy_traces_dir --checker=./copy_checker.py", shell=True)

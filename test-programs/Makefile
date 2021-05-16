@@ -1,5 +1,5 @@
 COMPILER = clang++-9
-CFLAGS = -std=c++17 -Iargparse/include
+CFLAGS = -std=c++17 -g -Iargparse/include
 
 MY_CXX_FLAGS=-nostdinc++ -stdlib=libc++ -lc++ -lc++abi \
 	-I/usr/local/lib/llvm-90/libcxx/include \

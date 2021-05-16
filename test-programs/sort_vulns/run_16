@@ -3,12 +3,15 @@ ALICE tool version 0.0.1. Please go through the documentation, particularly the
 listed caveats and limitations, before deriving any inferences from this tool. 
 [00;31m-------------------------------------------------------------------------------[0m
 Parsing traces to determine logical operations ...
+WARNING: 21:13:28.966918 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffd0a46bde0) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/mset-alice/test-programs/twosort.sh
 Logical operations:
-[00;32m0[0m	trunc("[00;31mA[0m", initial_size=5, inode=12794, final_size=0)
-[00;32m1[0m	append("[00;31mA[0m", offset=0, count=5, inode=12794)
-[00;32m2[0m	[00;32mstdout[0m("'5'")
+[00;32m0[0m	[00;32mstdout[0m("'\n'")
+[00;32m1[0m	trunc("[00;31mA[0m", initial_size=5, inode=62161, final_size=0)
+[00;32m2[0m	append("[00;31mA[0m", offset=0, count=4, inode=62161)
+[00;32m3[0m	[00;32mstdout[0m("'A,A,5'")
 [00;31m-------------------------------------[0m
 Finding vulnerabilities...
-(Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 0 until 2 need to be atomically persisted
-(Static vulnerability) Across-syscall atomicity: Operation B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28:0x153f427ed614[_ZNSt12__basic_fileIcE4openEPKcSt13_Ios_Openmodei] until B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28:0x153f42853a43[_ZNSo5flushEv]
+WARNING: Application found to be inconsistent after the entire workload completes. Recheck workload and checker. Possible bug in ALICE framework if this is not expected.
+(Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 3 until 3 need to be atomically persisted
+(Static vulnerability) Across-syscall atomicity: Operation B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28:0x1501ade21a43[_ZNSo5flushEv] until B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28:0x1501ade21a43[_ZNSo5flushEv]
 Done finding vulnerabilities.
