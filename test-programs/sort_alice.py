@@ -19,9 +19,10 @@ while True:
     start = end + len(end_str)
 
 try:
-    os.mkdir("sort_vulns")
+    shutil.rmtree("sort_vulns")
 except:
     pass
+os.mkdir("sort_vulns")
 
 counter = 0
 for file_path in file_paths:
@@ -44,7 +45,7 @@ for file_path in file_paths:
     subprocess.check_output("""
               alice-record --workload_dir ./sort_workload_dir \
               --traces_dir ./sort_traces_dir \
-              ./bin/sort ./sort_workload_dir/A ./sort_workload_dir/A
+              ./twosort.sh
               """, shell=True)
     
     alice_output = subprocess.check_output("alice-check --traces_dir=./sort_traces_dir --checker=./sort_checker.py", shell=True)
