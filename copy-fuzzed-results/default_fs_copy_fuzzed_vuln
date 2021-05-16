@@ -4,7 +4,7 @@ ALICE tool version 0.0.1. Please go through the documentation, particularly the
 listed caveats and limitations, before deriving any inferences from this tool. 
 -------------------------------------------------------------------------------
 Parsing traces to determine logical operations ...
-WARNING: 22:51:54.576891 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffdaf3d62e0) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/copy_fuzzed.sh
+WARNING: 01:41:45.432556 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffde5fb0300) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/fuzzed.sh
 Logical operations:
 0	creat("t", parent=2637, mode='0600', inode=2642)
 1	stdout("'\n'")
@@ -22,8 +22,8 @@ Logical operations:
 13	fsync("6", size=6, inode=2644)
 14	stdout("'file1,6:6,'")
 15	stdout("'\n'")
-16	write("file2", offset=0, count=6, inode=2640)
-17	fsync("file2", size=7, inode=2640)
+16	write("file2", offset=0, count=6, inode=2641)
+17	fsync("file2", size=7, inode=2641)
 18	stdout("'file1,file2:6,'")
 19	creat("aeR", parent=2637, mode='0600', inode=2645)
 20	stdout("'\n'")
@@ -34,7 +34,7 @@ Logical operations:
 Finding vulnerabilities...
 WARNING: Application found to be inconsistent after the entire workload completes. Recheck workload and checker. Possible bug in ALICE framework if this is not expected.
 (Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 18 until 23 need to be atomically persisted
-(Static vulnerability) Across-syscall atomicity: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55ef4676a7ca[_start] until B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Across-syscall atomicity: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55e8fe69f7ca[_start] until B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x560faeee17ca[_start]
 (Dynamic vulnerability) Ordering: Operation 0 needs to be persisted before 23
 (Dynamic vulnerability) Ordering: Operation 1 needs to be persisted before 23
 (Dynamic vulnerability) Ordering: Operation 4 needs to be persisted before 23
@@ -45,14 +45,9 @@ WARNING: Application found to be inconsistent after the entire workload complete
 (Dynamic vulnerability) Ordering: Operation 11 needs to be persisted before 23
 (Dynamic vulnerability) Ordering: Operation 14 needs to be persisted before 23
 (Dynamic vulnerability) Ordering: Operation 15 needs to be persisted before 23
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55892c0ee931[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x5623b56d3931[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55892c0ee7ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x5623b56d37ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55dd560b07ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x5623b56d3980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55ef4676a980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55dd560b0931[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55892c0ee980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
-(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55dd560b0980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x5623299027ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x560faeee17ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x56519499e7ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x560faeee17ca[_start]
+(Static vulnerability) Ordering: Operation copy.cpp:37[main(int, char**)] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x560faeee17ca[_start]
+(Static vulnerability) Ordering: Operation copy.cpp:28[main(int, char**)] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x560faeee17ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x5636ef9e97ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x560faeee17ca[_start]
 Done finding vulnerabilities.
