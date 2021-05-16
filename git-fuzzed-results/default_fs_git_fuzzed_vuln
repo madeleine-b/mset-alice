@@ -111,13 +111,13 @@ Warning: trunc_disk_ops called for the same initial and final size, 0
 Warning: trunc_disk_ops called for the same initial and final size, 0
 Warning: trunc_disk_ops called for the same initial and final size, 0
 Warning: trunc_disk_ops called for the same initial and final size, 0
-                                                                     Warning: trunc_disk_ops called for the same initial and final size, 0
-                                                                                                                                          Warning: trunc_disk_ops called for the same initial and final size, 0
-                                                             Warning: trunc_disk_ops called for the same initial and final size, 0
 Warning: trunc_disk_ops called for the same initial and final size, 0
-                                                                     Warning: trunc_disk_ops called for the same initial and final size, 0
-                                                                                                                                          Warning: trunc_disk_ops called for the same initial and final size, 0
-                                                             Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
+Warning: trunc_disk_ops called for the same initial and final size, 0
 (Dynamic vulnerability) Atomicity: Operation 4(destination unlinking partial  semi-truncated (3 count splits), destination unlinking partial , destination unlinking partial fully truncated)
 (Dynamic vulnerability) Atomicity: Operation 16(destination unlinking partial  semi-truncated (3 count splits), destination unlinking partial , destination unlinking partial fully truncated)
 (Dynamic vulnerability) Atomicity: Operation 25(destination unlinked fully, source untouched, destination and source unlinked fully, destination unlinking partial  semi-truncated (3 count splits), destination unlinking partial , destination unlinking partial fully truncated)
