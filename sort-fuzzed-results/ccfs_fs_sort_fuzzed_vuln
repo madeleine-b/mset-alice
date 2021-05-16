@@ -4,7 +4,7 @@ ALICE tool version 0.0.1. Please go through the documentation, particularly the
 listed caveats and limitations, before deriving any inferences from this tool. 
 -------------------------------------------------------------------------------
 Parsing traces to determine logical operations ...
-WARNING: 22:14:28.085597 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffee4213f30) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/sort_fuzzed.sh
+WARNING: 01:44:50.867788 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffd6cb85bc0) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/fuzzed.sh
 Logical operations:
 0	stdout("'\n'")
 1	creat("rFdqs", parent=2637, mode='0666', inode=2642)
@@ -75,5 +75,5 @@ Logical operations:
 -------------------------------------
 Finding vulnerabilities...
 (Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 49 until 50 need to be atomically persisted
-(Static vulnerability) Across-syscall atomicity: Operation B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f1bfc8aae50[_ZNSt12__basic_fileIcE4openEPKcSt13_Ios_Openmodei] until B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f1bfc8aacd6[None]
+(Static vulnerability) Across-syscall atomicity: Operation B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f1ccb7a5e50[_ZNSt12__basic_fileIcE4openEPKcSt13_Ios_Openmodei] until B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f1ccb7a5cd6[None]
 Done finding vulnerabilities.
