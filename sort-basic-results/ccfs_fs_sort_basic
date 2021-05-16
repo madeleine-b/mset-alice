@@ -1,0 +1,19 @@
+ccfs-alice-check --traces_dir=traces_dir --checker=./test-programs/sort_checker.py
+-------------------------------------------------------------------------------
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+-------------------------------------------------------------------------------
+Parsing traces to determine logical operations ...
+WARNING: 23:10:46.004552 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffd89d31750) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/sort_basic.sh
+Logical operations:
+0	stdout("'\n'")
+1	creat("file1_sorted", parent=2637, mode='0666', inode=2641)
+2	append("file1_sorted", offset=0, count=18, inode=2641)
+3	stdout("'file1,file1_sorted,19'")
+4	stdout("'\n'")
+5	creat("file2_sorted", parent=2637, mode='0666', inode=2642)
+6	append("file2_sorted", offset=0, count=6, inode=2642)
+7	stdout("'file2,file2_sorted,7'")
+-------------------------------------
+Finding vulnerabilities...
+Done finding vulnerabilities.

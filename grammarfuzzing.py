@@ -181,7 +181,7 @@ def set_up_copy_program_grammar():
 		"<digit>": string.hexdigits
 	}
 
-	COPY_GRAMMAR["<command>"] += documentation_to_commands("copy <file> <name>")
+	COPY_GRAMMAR["<command>"] += documentation_to_commands("copy <file> <name>\ncopy <file> <file>")
 	add_valid_files_to_grammar(COPY_GRAMMAR)
 	create_and_add_random_files_to_grammar(COPY_GRAMMAR)
 	return COPY_GRAMMAR
@@ -199,7 +199,7 @@ def set_up_sort_program_grammar():
 		"<digit>": string.hexdigits
 	}
 
-	SORT_GRAMMAR["<command>"] += documentation_to_commands("sort <file> <name>")
+	SORT_GRAMMAR["<command>"] += documentation_to_commands("sort <file> <name>\nsort <file> <file>")
 	add_valid_files_to_grammar(SORT_GRAMMAR)
 	create_and_add_random_files_to_grammar(SORT_GRAMMAR)
 	return SORT_GRAMMAR

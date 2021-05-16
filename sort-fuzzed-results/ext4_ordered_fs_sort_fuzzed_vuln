@@ -1,0 +1,83 @@
+ext4-ordered-alice-check --traces_dir=traces_dir --checker=./test-programs/sort_checker.py
+-------------------------------------------------------------------------------
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+-------------------------------------------------------------------------------
+Parsing traces to determine logical operations ...
+WARNING: 22:14:28.085597 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffee4213f30) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/sort_fuzzed.sh
+Logical operations:
+0	stdout("'\n'")
+1	creat("rFdqs", parent=2637, mode='0666', inode=2642)
+2	append("rFdqs", offset=0, count=6, inode=2642)
+3	stdout("'file2,rFdqs,7'")
+4	stdout("'\n'")
+5	creat("l", parent=2637, mode='0666', inode=2643)
+6	append("l", offset=0, count=114, inode=2643)
+7	stdout("'oXIDkp,l,114'")
+8	stdout("'\n'")
+9	creat("v", parent=2637, mode='0666', inode=2644)
+10	append("v", offset=0, count=6, inode=2644)
+11	stdout("'file2,v,7'")
+12	stdout("'\n'")
+13	creat("_sWc", parent=2637, mode='0666', inode=2645)
+14	append("_sWc", offset=0, count=6, inode=2645)
+15	stdout("'file2,_sWc,7'")
+16	stdout("'\n'")
+17	creat("Dh8", parent=2637, mode='0666', inode=2646)
+18	append("Dh8", offset=0, count=18, inode=2646)
+19	stdout("'file1,Dh8,19'")
+20	stdout("'\n'")
+21	creat("N", parent=2637, mode='0666', inode=2647)
+22	append("N", offset=0, count=114, inode=2647)
+23	stdout("'oXIDkp,N,114'")
+24	stdout("'\n'")
+25	trunc("file1", initial_size=19, inode=2638, final_size=0)
+26	append("file1", offset=0, count=6, inode=2638)
+27	stdout("'file2,file1,7'")
+28	stdout("'\n'")
+29	creat("A", parent=2637, mode='0666', inode=2648)
+30	append("A", offset=0, count=114, inode=2648)
+31	stdout("'oXIDkp,A,114'")
+32	stdout("'\n'")
+33	creat("1TI", parent=2637, mode='0666', inode=2649)
+34	append("1TI", offset=0, count=6, inode=2649)
+35	stdout("'file1,1TI,6'")
+36	stdout("'\n'")
+37	trunc("file1", initial_size=6, inode=2638, final_size=0)
+38	append("file1", offset=0, count=6, inode=2638)
+39	stdout("'file1,file1,6'")
+40	stdout("'\n'")
+41	creat("Zi", parent=2637, mode='0666', inode=2650)
+42	append("Zi", offset=0, count=114, inode=2650)
+43	stdout("'oXIDkp,Zi,114'")
+44	stdout("'\n'")
+45	creat("Xx", parent=2637, mode='0666', inode=2651)
+46	append("Xx", offset=0, count=6, inode=2651)
+47	stdout("'file1,Xx,6'")
+48	stdout("'\n'")
+49	trunc("file1", initial_size=6, inode=2638, final_size=0)
+50	append("file1", offset=0, count=6, inode=2638)
+51	stdout("'file2,file1,7'")
+52	stdout("'\n'")
+53	creat("WL8e", parent=2637, mode='0666', inode=2652)
+54	append("WL8e", offset=0, count=6, inode=2652)
+55	stdout("'file1,WL8e,6'")
+56	stdout("'\n'")
+57	stdout("'PM,p,'")
+58	stdout("'\n'")
+59	creat("4zr", parent=2637, mode='0666', inode=2653)
+60	append("4zr", offset=0, count=6, inode=2653)
+61	stdout("'file1,4zr,6'")
+62	stdout("'\n'")
+63	trunc("file2", initial_size=7, inode=2640, final_size=0)
+64	append("file2", offset=0, count=6, inode=2640)
+65	stdout("'file1,file2,6'")
+-------------------------------------
+Finding vulnerabilities...
+(Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 49 until 50 need to be atomically persisted
+(Static vulnerability) Across-syscall atomicity: Operation B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f1bfc8aae50[_ZNSt12__basic_fileIcE4openEPKcSt13_Ios_Openmodei] until B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f1bfc8aacd6[None]
+(Dynamic vulnerability) Ordering: Operation 25 needs to be persisted before 27
+(Dynamic vulnerability) Ordering: Operation 38 needs to be persisted before 39
+(Static vulnerability) Ordering: Operation B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f5351070e50[_ZNSt12__basic_fileIcE4openEPKcSt13_Ios_Openmodei] needed before B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f53510cfc4e[_ZNSo5flushEv]
+(Static vulnerability) Ordering: Operation B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f0705ec3cd6[None] needed before B-/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25:0x7f0705f22c4e[_ZNSo5flushEv]
+Done finding vulnerabilities.

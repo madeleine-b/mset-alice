@@ -1,0 +1,16 @@
+default-alice-check --traces_dir=traces_dir --checker=./test-programs/copy_checker.py
+-------------------------------------------------------------------------------
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+-------------------------------------------------------------------------------
+Parsing traces to determine logical operations ...
+WARNING: 23:04:12.359101 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7fff78d72e60) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/copy_basic_workload.sh
+Logical operations:
+0	creat("file3", parent=2637, mode='0600', inode=2641)
+1	stdout("'\n'")
+2	append("file3", offset=0, count=6, inode=2641)
+3	fsync("file3", size=6, inode=2641)
+4	stdout("'file1,file3:6,'")
+-------------------------------------
+Finding vulnerabilities...
+Done finding vulnerabilities.

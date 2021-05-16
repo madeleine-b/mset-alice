@@ -1,0 +1,52 @@
+ext4-ordered-alice-check --traces_dir=traces_dir --checker=./test-programs/copy_checker.py
+-------------------------------------------------------------------------------
+ALICE tool version 0.0.1. Please go through the documentation, particularly the
+listed caveats and limitations, before deriving any inferences from this tool. 
+-------------------------------------------------------------------------------
+Parsing traces to determine logical operations ...
+WARNING: 22:51:54.576891 ioctl(7, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, 0x7ffdaf3d62e0) = -1 ENOTTY (Inappropriate ioctl for device) name = /home/ubuntu/alice/example/test/copy_fuzzed.sh
+Logical operations:
+0	creat("t", parent=2637, mode='0600', inode=2642)
+1	stdout("'\n'")
+2	append("t", offset=0, count=6, inode=2642)
+3	fsync("t", size=6, inode=2642)
+4	stdout("'file1,t:6,'")
+5	creat("3", parent=2637, mode='0600', inode=2643)
+6	stdout("'\n'")
+7	append("3", offset=0, count=6, inode=2643)
+8	fsync("3", size=6, inode=2643)
+9	stdout("'file1,3:6,'")
+10	creat("6", parent=2637, mode='0600', inode=2644)
+11	stdout("'\n'")
+12	append("6", offset=0, count=6, inode=2644)
+13	fsync("6", size=6, inode=2644)
+14	stdout("'file1,6:6,'")
+15	stdout("'\n'")
+16	write("file2", offset=0, count=6, inode=2640)
+17	fsync("file2", size=7, inode=2640)
+18	stdout("'file1,file2:6,'")
+19	creat("aeR", parent=2637, mode='0600', inode=2645)
+20	stdout("'\n'")
+21	append("aeR", offset=0, count=6, inode=2645)
+22	fsync("aeR", size=6, inode=2645)
+23	stdout("'file1,aeR:6,'")
+-------------------------------------
+Finding vulnerabilities...
+WARNING: Application found to be inconsistent after the entire workload completes. Recheck workload and checker. Possible bug in ALICE framework if this is not expected.
+(Dynamic vulnerability) Across-syscall atomicity, sometimes concerning durability: Operations 18 until 23 need to be atomically persisted
+(Static vulnerability) Across-syscall atomicity: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55ef4676a7ca[_start] until B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Dynamic vulnerability) Ordering: Operation 1 needs to be persisted before 23
+(Dynamic vulnerability) Ordering: Operation 4 needs to be persisted before 23
+(Dynamic vulnerability) Ordering: Operation 6 needs to be persisted before 23
+(Dynamic vulnerability) Ordering: Operation 9 needs to be persisted before 23
+(Dynamic vulnerability) Ordering: Operation 11 needs to be persisted before 23
+(Dynamic vulnerability) Ordering: Operation 14 needs to be persisted before 23
+(Dynamic vulnerability) Ordering: Operation 15 needs to be persisted before 23
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55892c0ee7ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x5623b56d37ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55dd560b07ca[_start] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x5623b56d3980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55ef4676a980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55892c0ee980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+(Static vulnerability) Ordering: Operation B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x55dd560b0980[main] needed before B-/home/ubuntu/alice/example/test/test-programs/bin/copy:0x556c76ee77ca[_start]
+Done finding vulnerabilities.
